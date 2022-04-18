@@ -10,6 +10,6 @@ def variable_view(request):
         'first_name':'Jenish',
         'last_name':'Prajapati',
         'some_list':[1,22,3],
-        'some_dict':{'inside_key':'inside_value'}
+        'some_dict':{'inside_key':'inside_value','inside_key2':'inside_value2'}
     }
     return render(request,'my_app/variable.html',context=my_var)

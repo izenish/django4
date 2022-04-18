@@ -10,10 +10,14 @@
   <body>
 	<script src="index.js"></script>
     <h1>Variable Html</h1>
-    <h2>{{first_name}}</h2>
+    <h2>{{first_name | upper }}</h2>
     <h2>{{some_list}}</h2>
     <h3>To index a list we need to use the following list_object.index <br>  {{some_list.1}}</h3>
     <h3>To index a dict we need to use the following dict_object.key <br>  {{some_dict.1}}</h3>
+    {% for key,value in some_dict.items %}
+        <h6>{{key}}:{{value}}</h6>
+    
+    {% endfor %}
     <h3>{# this is a comment in django template#}</h3>
 
 
