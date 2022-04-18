@@ -1,18 +1,4 @@
-
-{% extends 'base.html' %}
-
-
-
-
-
-{% block content %}
-<h5>This is from inside the block</h5>
-<h4><a href="{% url 'my_app:variable'%}">Click me</a></h4>
-
-{% endblock  %}
-
-
-{% comment %} <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -23,7 +9,13 @@
   </head>
   <body>
 	<script src="index.js"></script>
-    <h1>HTML Templates connected</h1>
-    <h4><a href="{% url 'my_app:variable'%}">Click me</a></h4>
+    <h1>This is above the block in base</h1>
+    {% block content %}
+
+
+    {% endblock %}
+    <h1>This is below the block in base</h1>
+    
+
   </body>
-</html> {% endcomment %}
+</html>
