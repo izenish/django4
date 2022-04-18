@@ -1,12 +1,13 @@
 
 {% extends 'base.html' %}
 
-
+{% load static %}
 
 
 
 {% block content %}
 <h5>This is from inside the block</h5>
+<img src="{% static 'my_app/x.png' %}" alt="Not">
 <h4><a href="{% url 'my_app:variable'%}">Click me</a></h4>
 
 {% endblock  %}
