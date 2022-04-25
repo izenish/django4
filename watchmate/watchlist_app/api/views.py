@@ -1,4 +1,5 @@
 from pickle import GET
+from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -22,8 +23,23 @@ def movie_list(request):
         else:
             return Response(serializer.errors)
 
-@api_view()
+@api_view(['GET','PUT','DELETE'])
 def movie_detail(request,pk):
-    movie=Movie.objects.get(pk=pk)
-    serializer=MovieSerializer(movie)
-    return Response(serializer.data)
+    if request.method=='GET':
+        movie=Movie.objects.get(pk=pk)
+        serializer=MovieSerializer(movie)
+        return Response(serializer.data)
+
+    if request.method=='PUT':
+        movie=Movie.objects.get(pk=pk)
+        serializer=MovieSerializer(movie,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
+
+    if request.method=='DELETE':
+        movie=Movie.objects.get(pk=pk)
+        movie.delete()
+        return HttpResponse("Deleted")
