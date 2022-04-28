@@ -1,7 +1,8 @@
 from dataclasses import fields
+from pyexpat import model
 from rest_framework import serializers
 from watchlist_app.models import Movie
-from watchlist_app.models import StreamPlatform, WatchList
+from watchlist_app.models import StreamPlatform, WatchList,Review
 
 class MovieSerializer(serializers.Serializer):
     id=serializers.IntegerField(read_only=True)
@@ -22,13 +23,23 @@ class MovieSerializer(serializers.Serializer):
         instance.save()
         return instance
 
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Review
+        fields="__all__"
+
+class WatchlistSerializer(serializers.ModelSerializer):
+    review=ReviewSerializer(many=True,read_only=True)
+
+    class Meta:
+        model=WatchList
+        fields="__all__"
+
 class StreamPlatformSerializer(serializers.ModelSerializer):
+    # watchlist=WatchlistSerializer(many=True,read_only=True)
+    watchlist=serializers.StringRelatedField(many=True)
     class Meta:
         model=StreamPlatform
         fields="__all__"
 
-
-class WatchlistSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=WatchList
-        fields="__all__"
