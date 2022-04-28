@@ -79,13 +79,15 @@ class WatchListAV(APIView):
             return Response(serializer.errors,status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
-class ReviewList(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
+# class ReviewList(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
+class ReviewList(generics.ListCreateAPIView):
+
     queryset=Review.objects.all()
     serializer_class=ReviewSerializer
 
-    def get(self,request,*args, **kwargs):
-        return self.list(request,*args,**kwargs)
-    def post(self,request,*args,**kwargs):
-        return self.create(request,*args,**kwargs)
+    # def get(self,request,*args, **kwargs):
+    #     return self.list(request,*args,**kwargs)
+    # def post(self,request,*args,**kwargs):
+    #     return self.create(request,*args,**kwargs)
 
 
