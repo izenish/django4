@@ -1,5 +1,7 @@
+from dataclasses import fields
 from rest_framework import serializers
 from watchlist_app.models import Movie
+from watchlist_app.models import StreamPlatform, WatchList
 
 class MovieSerializer(serializers.Serializer):
     id=serializers.IntegerField(read_only=True)
@@ -19,3 +21,14 @@ class MovieSerializer(serializers.Serializer):
         instance.active=validated_data.get('active',instance.active)
         instance.save()
         return instance
+
+class StreamPlatformSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=StreamPlatform
+        fields="__all__"
+
+
+class WatchlistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=WatchList
+        fields="__all__"
