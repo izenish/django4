@@ -1,14 +1,14 @@
-from pickle import GET
 from platform import platform
 from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework import generics,mixins
 
-from watchlist_app.models import Movie,StreamPlatform,WatchList
+from watchlist_app.models import Movie,StreamPlatform,WatchList,Review
 from watchlist_app.api.serializers import MovieSerializer
-from watchlist_app.api.serializers import StreamPlatformSerializer, WatchlistSerializer
+from watchlist_app.api.serializers import StreamPlatformSerializer, WatchlistSerializer,ReviewSerializer
 
 
 @api_view(['GET','POST'])
@@ -77,3 +77,15 @@ class WatchListAV(APIView):
             serializer.save()
         else:
             return Response(serializer.errors,status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+class ReviewList(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
+    queryset=Review.objects.all()
+    serializer_class=ReviewSerializer
+
+    def get(self,request,*args, **kwargs):
+        return self.list(request,*args,**kwargs)
+    def post(self,request,*args,**kwargs):
+        return self.create(request,*args,**kwargs)
+
+
