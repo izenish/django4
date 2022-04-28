@@ -15,7 +15,7 @@ class StreamPlatform(models.Model):
     website=models.URLField(max_length=222)
 
     def __str__(self) -> str:
-        return self.name
+        return self.name 
 
 class WatchList(models.Model):
     title=models.CharField(max_length=222)
@@ -24,5 +24,5 @@ class WatchList(models.Model):
     created=models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return self.title
-        
+        return self.title 
+

@@ -1,10 +1,14 @@
 from pickle import GET
+from platform import platform
 from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
+from rest_framework import status
 
-from watchlist_app.models import Movie
+from watchlist_app.models import Movie,StreamPlatform,WatchList
 from watchlist_app.api.serializers import MovieSerializer
+from watchlist_app.api.serializers import StreamPlatformSerializer, WatchlistSerializer
 
 
 @api_view(['GET','POST'])
@@ -43,3 +47,33 @@ def movie_detail(request,pk):
         movie=Movie.objects.get(pk=pk)
         movie.delete()
         return HttpResponse("Deleted")
+
+
+'Class based Views'
+class StreamPlatformAV(APIView):
+    def get(self,request):
+        platform=StreamPlatform.objects.all()
+        serializer=StreamPlatformSerializer(platform,many=True)
+        return Response(serializer.data)
+    
+    def post(self,request):
+        serializer=StreamPlatformSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors,status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+class WatchListAV(APIView):
+    def get(self,request):
+        platform=WatchList.objects.all()
+        serializer=WatchlistSerializer(platform,many=True)
+        return Response(serializer.data)
+    
+    def post(self,request):
+        serializer=WatchlistSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            return Response(serializer.errors,status=status.HTTP_406_NOT_ACCEPTABLE)
